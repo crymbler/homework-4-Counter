@@ -8,11 +8,13 @@ public class Counter : MonoBehaviour
 
     private bool IsClicked;
     private float _time;
+    private WaitForSeconds _wait;
 
     public event Action<float> Changed;
 
     private void Awake()
     {
+        _wait = new WaitForSeconds(_delay);
         _time = 0;
         IsClicked = false;
     }
@@ -43,15 +45,13 @@ public class Counter : MonoBehaviour
 
     private IEnumerator TimeCounter()
     {
-        var wait = new WaitForSeconds(_delay);
-
         while (IsClicked)
         {
             _time++;
 
             Changed?.Invoke(_time);
 
-            yield return wait;
+            yield return _wait;
         }
     }
 }
